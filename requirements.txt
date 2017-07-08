@@ -1,1 +1,4 @@
+hoedown
+Jinja2
+Pillow
 pyyaml

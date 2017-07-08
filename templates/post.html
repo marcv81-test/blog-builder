@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{ site.meta.title }} - {{ post.meta.title }}</title>
+</head>
+<body>
+<ul>
+<li><a href="{{ site.meta.url }}">Home</a>
+</ul>
+<h1>{{ post.meta.title }}</h1>
+
+{{ post.content | markdown }}
+</body>
+</html>
