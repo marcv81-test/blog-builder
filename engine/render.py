@@ -63,9 +63,16 @@ class HtmlRenderer:
         # Returns the HTML
         return html
 
+    @staticmethod
+    def remove_blank_lines(html):
+        lines = html.splitlines()
+        lines = (line for line in lines if len(line) > 0)
+        return '\n'.join(lines)
+
     def render(self, template, parameters, dir):
         index_path = os.path.join(dir, 'index.html')
         html = self.templates[template].render(**parameters)
+        html = HtmlRenderer.remove_blank_lines(html)
         with open(index_path, 'w') as stream:
             stream.write(html)
 
