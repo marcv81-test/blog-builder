@@ -1,3 +1,4 @@
+import bs4
 import hoedown
 import jinja2
 import os
@@ -17,9 +18,7 @@ class Renderer:
         os.mkdir(dir)
 
     def render_site(self, site, site_dir):
-        Renderer.empty_dir(site_dir)
-        self.html_renderer.render(
-            'home', {'site': site}, site_dir)
+        self.render_post(site, site.posts[-1], site_dir)
         self.render_posts(site, site_dir)
 
     def render_posts(self, site, site_dir):
@@ -48,12 +47,21 @@ class HtmlRenderer:
     def __init__(self, templates_dir):
         loader = jinja2.FileSystemLoader(templates_dir)
         environment = jinja2.Environment(loader=loader)
-        markdown = hoedown.Markdown(hoedown.HtmlRenderer())
-        markdown_filter = lambda content: markdown.render(content)
-        environment.filters['markdown'] = markdown_filter
-        self.templates = {
-            'home': environment.get_template('home.html'),
-            'post': environment.get_template('post.html')}
+        environment.filters['markdown'] = HtmlRenderer.render_markdown
+        self.templates = {'post': environment.get_template('post.html')}
+
+    @staticmethod
+    def render_markdown(markdown):
+        # Converts Markdown to HTML
+        renderer = hoedown.Markdown(hoedown.HtmlRenderer())
+        html = renderer.render(markdown)
+        # Injects customizations
+        soup = bs4.BeautifulSoup(html, 'html.parser')
+        for image in soup.findAll('img'):
+            image['class'] = 'img-responsive center-block'
+        html = str(soup)
+        # Returns the HTML
+        return html
 
     def render(self, template, parameters, dir):
         index_path = os.path.join(dir, 'index.html')

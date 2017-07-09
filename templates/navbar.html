@@ -1,0 +1,10 @@
+<h1>Posts</h1>
+<ul class="nav nav-stacked">
+{% for p in site.posts | reverse %}
+{% if post is defined and p == post %}
+<li class="active"><a href="{{ site.meta.url }}/posts/{{ p.id }}/">{{ p.meta.title }}</a></li>
+{% else %}
+<li><a href="{{ site.meta.url }}/posts/{{ p.id }}/">{{ p.meta.title }}</a></li>
+{% endif%}
+{% endfor %}
+</ul>

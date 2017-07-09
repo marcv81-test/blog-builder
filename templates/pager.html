@@ -1,0 +1,10 @@
+<nav>
+<ul class="pager">
+{% if post.previous is defined %}
+<li class="previous"><a href="{{ site.meta.url }}/posts/{{ post.previous.id }}/"><span aria-hidden="true">&larr;</span> Previous</a></li>
+{% endif %}
+{% if post.next is defined %}
+<li class="next"><a href="{{ site.meta.url }}/posts/{{ post.next.id }}/">Next <span aria-hidden="true">&rarr;</span></a></li>
+{% endif %}
+</ul>
+</nav>

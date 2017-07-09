@@ -13,6 +13,11 @@ class Site:
         self.posts = list(sorted(
             Post.all(posts_dir),
             key=lambda post: post.id))
+        # Order the posts
+        for i in range(len(self.posts) - 1):
+            self.posts[i].next = self.posts[i + 1]
+        for i in range(1, len(self.posts)):
+            self.posts[i].previous = self.posts[i - 1]
 
 class Post:
 
